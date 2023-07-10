@@ -119,6 +119,7 @@ open class EPUBNavigatorViewController: UIViewController,
             readiumCSSRSProperties: CSSRSProperties = CSSRSProperties(),
             debugState: Bool = false
         ) {
+            print("Just Testing....")
             self.userSettings = userSettings
             self.preferences = preferences
             self.defaults = defaults
