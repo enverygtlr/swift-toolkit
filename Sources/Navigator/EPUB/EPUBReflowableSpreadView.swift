@@ -48,6 +48,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         scrollView.alwaysBounceHorizontal = false
 
         scrollView.isPagingEnabled = !viewModel.scroll
+        scrollView.layer.masksToBounds = false
 
         webView.translatesAutoresizingMaskIntoConstraints = false
         topConstraint = webView.topAnchor.constraint(equalTo: topAnchor)
@@ -137,8 +138,8 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
             insets.top += notchAreaInsets.top
             insets.bottom += notchAreaInsets.bottom
             
-            topConstraint.constant =  notchAreaInsets.top
-            bottomConstraint.constant = -notchAreaInsets.bottom
+            topConstraint.constant =  insets.top
+            bottomConstraint.constant = -insets.bottom
             scrollView.contentInset = .zero
         }
     }
