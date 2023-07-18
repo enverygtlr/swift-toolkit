@@ -142,7 +142,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 //            scrollView.contentInset = .zero
             topConstraint.constant = 0
             bottomConstraint.constant = 0
-            let edgeInsets = UIEdgeInsets(top: insets.top, left: 0, bottom: -insets.bottom, right: 0)
+            let edgeInsets = UIEdgeInsets(top: insets.top, left: 0, bottom: insets.bottom, right: 0)
             webView.setValue(edgeInsets, forKey: "_obscuredInsets")
             webView.setValue(true, forKey: "_haveSetObscuredInsets")
             scrollView.contentInset = edgeInsets
