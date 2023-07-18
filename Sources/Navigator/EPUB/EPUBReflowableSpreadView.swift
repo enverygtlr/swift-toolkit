@@ -137,8 +137,8 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
             insets.top += notchAreaInsets.top
             insets.bottom += notchAreaInsets.bottom
             
-            topConstraint.constant = insets.top
-            bottomConstraint.constant = -insets.bottom
+            topConstraint.constant =  notchAreaInsets.top
+            bottomConstraint.constant = -notchAreaInsets.bottom
             scrollView.contentInset = .zero
         }
     }
