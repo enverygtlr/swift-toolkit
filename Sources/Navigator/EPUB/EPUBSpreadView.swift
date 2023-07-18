@@ -113,7 +113,7 @@ class EPUBSpreadView: UIView, Loggable, PageView {
         scrollView.showsVerticalScrollIndicator = false
 
         // Prevents the pages from jumping down when the status bar is toggled
-//        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentInsetAdjustmentBehavior = .never
 
         webView.navigationDelegate = self
         webView.uiDelegate = self
