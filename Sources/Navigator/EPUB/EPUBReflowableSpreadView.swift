@@ -48,7 +48,6 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         scrollView.alwaysBounceHorizontal = false
 
         scrollView.isPagingEnabled = !viewModel.scroll
-        scrollView.layer.masksToBounds = false
 
         webView.translatesAutoresizingMaskIntoConstraints = false
         topConstraint = webView.topAnchor.constraint(equalTo: topAnchor)
