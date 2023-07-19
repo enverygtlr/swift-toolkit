@@ -141,7 +141,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
                 ?? (top: 0, bottom: 0)
             
             // Increases the insets by the notch area (eg. iPhone X) to make sure that the content is not overlapped by the screen notch.
-            topConstraint.constant = notchAreaInsets.top
+            topConstraint.constant = notchAreaInsets.top + insets.top
             bottomConstraint.constant = 0
             scrollView.contentInset = .zero
         }
