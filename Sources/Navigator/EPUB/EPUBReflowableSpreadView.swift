@@ -26,6 +26,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
     ) {
         var scripts = scripts
         cover = UIView()
+        addSubview(cover)
 
         if viewModel.useLegacySettings {
             let layout = ReadiumCSSLayout(languages: viewModel.publication.metadata.languages, readingProgression: viewModel.readingProgression)
