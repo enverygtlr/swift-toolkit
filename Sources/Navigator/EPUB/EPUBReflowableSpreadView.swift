@@ -37,10 +37,10 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
             isUserInteractionEnabled = false
         }
         
-        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-            // Ignore all touch events
-            return nil
-        }
+        override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+               // Consume all touch and drag events
+               return true
+           }
     }
 
     required init(
