@@ -44,9 +44,10 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
     override func setupWebView() {
         super.setupWebView()
 
-        addSubview(cover)
+        insertSubview(cover, belowSubview: webView)
         cover.translatesAutoresizingMaskIntoConstraints = false
         cover.backgroundColor = .clear
+        cover.isUserInteractionEnabled = false
         
         NSLayoutConstraint.activate([
             cover.topAnchor.constraint(equalTo: topAnchor),
