@@ -16,10 +16,29 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 
     private static let reflowableScript = loadScript(named: "readium-reflowable")
     
-    let cover: OverlayView
+    let cover: LockView
     
-    class OverlayView: UIView {
+    class LockView: UIView {
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            commonInit()
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+            commonInit()
+        }
+        
+        private func commonInit() {
+            // Make the view transparent
+            backgroundColor = UIColor.clear
+            
+            // Disable user interaction
+            isUserInteractionEnabled = false
+        }
+        
         override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+            // Ignore all touch events
             return nil
         }
     }
@@ -31,7 +50,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         animatedLoad: Bool
     ) {
         var scripts = scripts
-        cover = OverlayView()
+        cover = LockView()
 
         if viewModel.useLegacySettings {
             let layout = ReadiumCSSLayout(languages: viewModel.publication.metadata.languages, readingProgression: viewModel.readingProgression)
@@ -52,8 +71,6 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 
         insertSubview(cover, belowSubview: webView)
         cover.translatesAutoresizingMaskIntoConstraints = false
-        cover.backgroundColor = .blue
-        cover.isUserInteractionEnabled = false
         
         NSLayoutConstraint.activate([
             cover.topAnchor.constraint(equalTo: topAnchor),
