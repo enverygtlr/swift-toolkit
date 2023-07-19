@@ -16,7 +16,13 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 
     private static let reflowableScript = loadScript(named: "readium-reflowable")
     
-    let cover: UIView
+    let cover: OverlayView
+    
+    class OverlayView: UIView {
+        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+            return nil
+        }
+    }
 
     required init(
         viewModel: EPUBNavigatorViewModel,
@@ -25,7 +31,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         animatedLoad: Bool
     ) {
         var scripts = scripts
-        cover = UIView()
+        cover = OverlayView()
 
         if viewModel.useLegacySettings {
             let layout = ReadiumCSSLayout(languages: viewModel.publication.metadata.languages, readingProgression: viewModel.readingProgression)
@@ -47,7 +53,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         insertSubview(cover, belowSubview: webView)
         cover.translatesAutoresizingMaskIntoConstraints = false
         cover.backgroundColor = .clear
-        cover.isUserInteractionEnabled = false
+        cover.isUserInteractionEnabled = true
         
         NSLayoutConstraint.activate([
             cover.topAnchor.constraint(equalTo: topAnchor),
