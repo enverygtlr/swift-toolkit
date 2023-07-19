@@ -26,7 +26,6 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
     ) {
         var scripts = scripts
         cover = UIView()
-        addSubview(cover)
 
         if viewModel.useLegacySettings {
             let layout = ReadiumCSSLayout(languages: viewModel.publication.metadata.languages, readingProgression: viewModel.readingProgression)
@@ -40,12 +39,12 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         scripts.append(WKUserScript(source: Self.reflowableScript, injectionTime: .atDocumentStart, forMainFrameOnly: false))
 
         super.init(viewModel: viewModel, spread: spread, scripts: scripts, animatedLoad: animatedLoad)
-        addSubview(cover)
     }
 
     override func setupWebView() {
         super.setupWebView()
 
+        addSubview(cover)
         cover.translatesAutoresizingMaskIntoConstraints = false
         cover.backgroundColor = .clear
         
