@@ -45,8 +45,15 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
     override func setupWebView() {
         super.setupWebView()
 
-        cover.frame = bounds
+        cover.translatesAutoresizingMaskIntoConstraints = false
         cover.backgroundColor = .clear
+        
+        NSLayoutConstraint.activate([
+            cover.topAnchor.constraint(equalTo: topAnchor),
+            cover.rightAnchor.constraint(equalTo: rightAnchor),
+            cover.bottomAnchor.constraint(equalTo: bottomAnchor),
+            cover.leftAnchor.constraint(equalTo: leftAnchor)
+        ])
         
         scrollView.bounces = false
         // Since iOS 16, the default value of alwaysBounceX seems to be true
