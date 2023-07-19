@@ -16,33 +16,6 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 
     private static let reflowableScript = loadScript(named: "readium-reflowable")
     
-    let cover: LockView
-    
-    class LockView: UIView {
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            commonInit()
-        }
-        
-        required init?(coder aDecoder: NSCoder) {
-            super.init(coder: aDecoder)
-            commonInit()
-        }
-        
-        private func commonInit() {
-            // Make the view transparent
-            backgroundColor = UIColor.clear
-            
-            // Disable user interaction
-            isUserInteractionEnabled = false
-        }
-        
-        override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-               // Consume all touch and drag events
-               return true
-           }
-    }
-
     required init(
         viewModel: EPUBNavigatorViewModel,
         spread: EPUBSpread,
@@ -50,7 +23,6 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         animatedLoad: Bool
     ) {
         var scripts = scripts
-        cover = LockView()
 
         if viewModel.useLegacySettings {
             let layout = ReadiumCSSLayout(languages: viewModel.publication.metadata.languages, readingProgression: viewModel.readingProgression)
@@ -68,17 +40,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 
     override func setupWebView() {
         super.setupWebView()
-
-        insertSubview(cover, belowSubview: webView)
-        cover.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            cover.topAnchor.constraint(equalTo: topAnchor),
-            cover.rightAnchor.constraint(equalTo: rightAnchor),
-            cover.bottomAnchor.constraint(equalTo: bottomAnchor),
-            cover.leftAnchor.constraint(equalTo: leftAnchor)
-        ])
-        
+    
         scrollView.bounces = false
         // Since iOS 16, the default value of alwaysBounceX seems to be true
         // for web views.
@@ -172,7 +134,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
                 ?? (top: 0, bottom: 0)
             
             // Increases the insets by the notch area (eg. iPhone X) to make sure that the content is not overlapped by the screen notch.
-            topConstraint.constant = notchAreaInsets.top + insets.top
+            topConstraint.constant = 0
             bottomConstraint.constant = 0
             scrollView.contentInset = .zero
         }
