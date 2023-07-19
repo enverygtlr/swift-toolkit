@@ -15,6 +15,8 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
     private var bottomConstraint: NSLayoutConstraint!
 
     private static let reflowableScript = loadScript(named: "readium-reflowable")
+    
+    let cover: UIView
 
     required init(
         viewModel: EPUBNavigatorViewModel,
@@ -23,6 +25,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         animatedLoad: Bool
     ) {
         var scripts = scripts
+        cover = UIView()
 
         if viewModel.useLegacySettings {
             let layout = ReadiumCSSLayout(languages: viewModel.publication.metadata.languages, readingProgression: viewModel.readingProgression)
@@ -36,11 +39,15 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         scripts.append(WKUserScript(source: Self.reflowableScript, injectionTime: .atDocumentStart, forMainFrameOnly: false))
 
         super.init(viewModel: viewModel, spread: spread, scripts: scripts, animatedLoad: animatedLoad)
+        addSubview(cover)
     }
 
     override func setupWebView() {
         super.setupWebView()
 
+        cover.frame = bounds
+        cover.backgroundColor = .clear
+        
         scrollView.bounces = false
         // Since iOS 16, the default value of alwaysBounceX seems to be true
         // for web views.
@@ -48,7 +55,6 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
         scrollView.alwaysBounceHorizontal = false
 
         scrollView.isPagingEnabled = !viewModel.scroll
-        scrollView.layer.masksToBounds = false
 
         webView.translatesAutoresizingMaskIntoConstraints = false
         topConstraint = webView.topAnchor.constraint(equalTo: topAnchor)
@@ -135,13 +141,9 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
                 ?? (top: 0, bottom: 0)
             
             // Increases the insets by the notch area (eg. iPhone X) to make sure that the content is not overlapped by the screen notch.
-            insets.top += notchAreaInsets.top
-            insets.bottom += notchAreaInsets.bottom
-            
-            scrollView.contentInset = UIEdgeInsets(top: notchAreaInsets.top, left: 0, bottom: notchAreaInsets.bottom, right: 0)
-            
-            topConstraint.constant =  insets.top
-            bottomConstraint.constant = -insets.bottom
+            topConstraint.constant = notchAreaInsets.top
+            bottomConstraint.constant = 0
+            scrollView.contentInset = .zero
         }
     }
 
