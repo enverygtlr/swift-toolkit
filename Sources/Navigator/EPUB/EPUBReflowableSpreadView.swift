@@ -52,7 +52,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 
         insertSubview(cover, belowSubview: webView)
         cover.translatesAutoresizingMaskIntoConstraints = false
-        cover.backgroundColor = .clear
+        cover.backgroundColor = .blue
         cover.isUserInteractionEnabled = true
         
         NSLayoutConstraint.activate([
