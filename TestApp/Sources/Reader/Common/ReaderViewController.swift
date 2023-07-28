@@ -138,7 +138,7 @@ class ReaderViewController<N: UIViewController & Navigator>: UIViewController, U
 
     // MARK: - Navigation bar
 
-    private var navigationBarHidden: Bool = true {
+    private var navigationBarHidden: Bool = false {
         didSet {
             updateNavigationBar()
         }
