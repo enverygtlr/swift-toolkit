@@ -44,7 +44,7 @@ public class AVTTSEngine: NSObject, TTSEngine, AVSpeechSynthesizerDelegate, Logg
     ///   utterances. If `nil`, utterances won't play when the app is in the
     ///   background.
     public init(
-        audioSessionConfig: _AudioSession.Configuration? = .init(
+        audioSessionConfig: AudioSession.Configuration? = .init(
             category: .playback,
             mode: .spokenAudio,
             options: .mixWithOthers
@@ -319,14 +319,14 @@ public class AVTTSEngine: NSObject, TTSEngine, AVSpeechSynthesizerDelegate, Logg
         guard let user = audioSessionUser else {
             return
         }
-        _AudioSession.shared.user(user, didChangePlaying: isPlaying)
+        AudioSession.shared.user(user, didChangePlaying: isPlaying)
     }
 
     private func startEngine(with task: Task) {
         synthesizer.speak(taskUtterance(with: task))
 
         if let user = audioSessionUser {
-            _AudioSession.shared.start(with: user, isPlaying: false)
+            AudioSession.shared.start(with: user, isPlaying: false)
         }
     }
 
@@ -347,15 +347,15 @@ public class AVTTSEngine: NSObject, TTSEngine, AVSpeechSynthesizerDelegate, Logg
 
     private let audioSessionUser: AudioSessionUser?
 
-    private final class AudioSessionUser: R2Shared._AudioSessionUser {
-        let audioConfiguration: _AudioSession.Configuration
+    private final class AudioSessionUser: R2Shared.AudioSessionUser {
+        let audioConfiguration: AudioSession.Configuration
 
-        init(config: _AudioSession.Configuration) {
+        init(config: AudioSession.Configuration) {
             audioConfiguration = config
         }
 
         deinit {
-            _AudioSession.shared.end(for: self)
+            AudioSession.shared.end(for: self)
         }
 
         func play() {}
