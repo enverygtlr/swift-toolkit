@@ -25,8 +25,8 @@ public protocol AudioNavigatorDelegate: MediaNavigatorDelegate {}
 open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
     public weak var delegate: AudioNavigatorDelegate?
 
-    private let publication: Publication
-    private let initialLocation: Locator?
+    public let publication: Publication
+    public let initialLocation: Locator?
     public let audioConfiguration: AudioSession.Configuration
 
     public init(
