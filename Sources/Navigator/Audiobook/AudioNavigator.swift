@@ -327,6 +327,12 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
             player.volume = Float(newValue)
         }
     }
+    
+    public var playerRate: Float {
+        get {
+            player.rate
+        }
+    }
 
     public var rate: Double = 1 {
         // We don't alias to `player.rate`, because it might be 0 when the player is paused. `rate`
