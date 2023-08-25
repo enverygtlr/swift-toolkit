@@ -256,6 +256,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
             // Loads resource
             if player.currentItem == nil || resourceIndex != newResourceIndex {
                 log(.info, "Starts playing \(link.href)")
+                player.currentItem?.cancelPendingSeeks()
                 let asset = try mediaLoader.makeAsset(for: link)
                 player.replaceCurrentItem(with: AVPlayerItem(asset: asset))
                 resourceIndex = newResourceIndex
@@ -363,6 +364,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
     }
 
     public func seek(to time: Double) {
+        player.currentItem?.cancelPendingSeeks()
         player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero)
     }
 
