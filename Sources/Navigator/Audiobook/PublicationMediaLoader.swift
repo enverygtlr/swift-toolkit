@@ -47,7 +47,7 @@ final class PublicationMediaLoader: NSObject, AVAssetResourceLoaderDelegate {
         }
 
         let asset = AVURLAsset(url: url)
-        asset.resourceLoader.setDelegate(self, queue: queue)
+//        asset.resourceLoader.setDelegate(self, queue: queue)
         return asset
     }
 
