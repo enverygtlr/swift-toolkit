@@ -266,15 +266,17 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
                 delegate?.navigator(self, loadedTimeRangesDidChange: [])
             }
             
-            print(player.currentItem?.status.rawValue)
 
             // Seeks to time
-            let time = locator.time(forDuration: resourceDuration) ?? 0
-            player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero) { [weak self] finished in
-                if let self = self, finished {
-                    self.delegate?.navigator(self, didJumpTo: locator)
+            if player.currentItem?.status == .readyToPlay {
+                let time = locator.time(forDuration: resourceDuration) ?? 0
+                player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero) { [weak self] finished in
+                    if let self = self, finished {
+                        self.delegate?.navigator(self, didJumpTo: locator)
+                    }
+                    DispatchQueue.main.async(execute: completion)
                 }
-                DispatchQueue.main.async(execute: completion)
+
             }
             return true
         } catch {
