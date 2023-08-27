@@ -257,9 +257,9 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
             if player.currentItem == nil || resourceIndex != newResourceIndex {
                 log(.info, "Starts playing \(link.href)")
                 player.currentItem?.cancelPendingSeeks()
-                let asset = try mediaLoader.makeAsset(for: link)
                 let originalURL = link.url(relativeTo: publication.baseURL) ?? URL(fileURLWithPath: link.href)
-                player.replaceCurrentItem(with: AVPlayerItem(url: originalURL))
+                let asset = AVURLAsset(url: originalURL)
+                player.replaceCurrentItem(with: AVPlayerItem(asset: asset))
                 resourceIndex = newResourceIndex
                 loadedTimeRangesTimer.fire()
                 delegate?.navigator(self, loadedTimeRangesDidChange: [])
