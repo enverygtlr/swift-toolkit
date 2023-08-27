@@ -268,7 +268,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
 
             // Seeks to time
             let time = locator.time(forDuration: resourceDuration) ?? 0
-            player.currentItem?.seek(to: CMTime(seconds: time, preferredTimescale: CMTimeScale(60000)), toleranceBefore: .positiveInfinity, toleranceAfter: .zero) { [weak self] finished in
+            player.currentItem?.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero) { [weak self] finished in
                 if let self = self, finished {
                     self.delegate?.navigator(self, didJumpTo: locator)
                 }
@@ -358,7 +358,8 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
         if player.currentItem == nil, let location = initialLocation {
             go(to: location)
         }
-        player.playImmediately(atRate: Float(rate))
+//        player.playImmediately(atRate: Float(rate))
+        player.play()
     }
 
     public func pause() {
@@ -366,7 +367,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
     }
 
     public func seek(to time: Double) {
-        player.currentItem?.seek(to: CMTime(seconds: time, preferredTimescale: CMTimeScale(60000)), toleranceBefore: .positiveInfinity, toleranceAfter: .zero, completionHandler: nil)
+        player.currentItem?.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero, completionHandler: nil)
     }
 
     public func seek(relatively delta: Double) {
