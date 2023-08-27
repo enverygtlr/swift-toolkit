@@ -254,7 +254,6 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
         do {
             currentLocation = locator
             // Loads resource
-            player.currentItem?.cancelPendingSeeks()
             if player.currentItem == nil || resourceIndex != newResourceIndex {
                 log(.info, "Starts playing \(link.href)")
                 let originalURL = link.url(relativeTo: publication.baseURL) ?? URL(fileURLWithPath: link.href)
