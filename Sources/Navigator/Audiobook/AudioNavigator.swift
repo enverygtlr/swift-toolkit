@@ -367,10 +367,18 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
     public func seek(to time: Double) {
         player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero)
     }
+    
+    public func seekWithCompletion(to time: Double, completion: @escaping () -> Void = {}) {
+        player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero) { finished in
+                DispatchQueue.main.async(execute: completion)
+        }
+    }
 
     public func seek(relatively delta: Double) {
         seek(to: currentTime + delta)
     }
+    
+    
 }
 
 private extension Locator {
