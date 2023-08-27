@@ -256,7 +256,6 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
             // Loads resource
             if player.currentItem == nil || resourceIndex != newResourceIndex {
                 log(.info, "Starts playing \(link.href)")
-                player.currentItem?.cancelPendingSeeks()
                 let originalURL = link.url(relativeTo: publication.baseURL) ?? URL(fileURLWithPath: link.href)
                 let asset = AVURLAsset(url: originalURL)
                 player.replaceCurrentItem(with: AVPlayerItem(asset: asset))
