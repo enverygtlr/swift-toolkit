@@ -251,6 +251,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
         }
         let link = publication.readingOrder[newResourceIndex]
 
+        self.player.currentItem?.cancelPendingSeeks()
         do {
             currentLocation = locator
             // Loads resource
@@ -366,10 +367,12 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
     }
 
     public func seek(to time: Double) {
+        self.player.currentItem?.cancelPendingSeeks()
         player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero)
     }
     
     public func seekWithCompletion(to time: Double, completion: @escaping () -> Void = {}) {
+        self.player.currentItem?.cancelPendingSeeks()
         player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero) { finished in
                 DispatchQueue.main.async(execute: completion)
         }
