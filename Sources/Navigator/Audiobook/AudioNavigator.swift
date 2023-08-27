@@ -357,7 +357,8 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
         if player.currentItem == nil, let location = initialLocation {
             go(to: location)
         }
-        player.playImmediately(atRate: Float(rate))
+//        player.playImmediately(atRate: Float(rate))
+        player.play()
     }
 
     public func pause() {
