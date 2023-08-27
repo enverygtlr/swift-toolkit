@@ -97,7 +97,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
     private lazy var player: AVPlayer = {
         let player = AVPlayer()
         player.allowsExternalPlayback = false
-        player.automaticallyWaitsToMinimizeStalling = true
+        player.automaticallyWaitsToMinimizeStalling = false
 
         player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.5, preferredTimescale: 1000), queue: .main) { [weak self] time in
             if let self = self {
@@ -358,8 +358,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
         if player.currentItem == nil, let location = initialLocation {
             go(to: location)
         }
-//        player.playImmediately(atRate: Float(rate))
-        player.play()
+        player.playImmediately(atRate: Float(rate))
     }
 
     public func pause() {
