@@ -266,7 +266,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
                 delegate?.navigator(self, loadedTimeRangesDidChange: [])
             }
             
-            print(player.currentItem?.status)
+            print(player.currentItem?.status.rawValue)
 
             // Seeks to time
             let time = locator.time(forDuration: resourceDuration) ?? 0
