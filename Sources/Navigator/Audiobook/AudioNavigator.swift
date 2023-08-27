@@ -258,7 +258,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
             if player.currentItem == nil || resourceIndex != newResourceIndex {
                 log(.info, "Starts playing \(link.href)")
                 let originalURL = link.url(relativeTo: publication.baseURL) ?? URL(fileURLWithPath: link.href)
-                let asset = AVURLAsset(url: originalURL)
+                let asset = AVURLAsset(url: originalURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
                 
                 player.replaceCurrentItem(with: AVPlayerItem(asset: asset))
                 resourceIndex = newResourceIndex
@@ -358,8 +358,7 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
         if player.currentItem == nil, let location = initialLocation {
             go(to: location)
         }
-//        player.playImmediately(atRate: Float(rate))
-        player.play()
+        player.playImmediately(atRate: Float(rate))
     }
 
     public func pause() {
