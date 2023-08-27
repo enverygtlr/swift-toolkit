@@ -266,7 +266,6 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
             }
 
             // Seeks to time
-            player.currentItem?.cancelPendingSeeks()
             let time = locator.time(forDuration: resourceDuration) ?? 0
             player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero) { [weak self] finished in
                 if let self = self, finished {
@@ -366,7 +365,6 @@ open class AudioNavigator: MediaNavigator, AudioSessionUser, Loggable {
     }
 
     public func seek(to time: Double) {
-        player.currentItem?.cancelPendingSeeks()
         player.seek(to: CMTime(seconds: time, preferredTimescale: 1000), toleranceBefore: .positiveInfinity, toleranceAfter: .zero)
     }
 
