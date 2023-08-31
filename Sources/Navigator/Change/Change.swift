@@ -9,7 +9,6 @@ import UIKit
 //Drag Begin
 extension PaginationView {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        print("SCROLL VIEW WILL BEGIN DRAGGING!!!")
         self.delegate?.paginationViewWillBeginDragging(self)
     }
 }
