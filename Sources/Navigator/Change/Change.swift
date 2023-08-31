@@ -26,7 +26,7 @@ extension EPUBNavigatorViewController {
     }
 }
 
-extension EPUBNavigatorDelegate {
+public extension EPUBNavigatorDelegate {
     func chapterWillBeginDragging() {
         
     }
