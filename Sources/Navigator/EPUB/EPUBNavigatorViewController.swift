@@ -29,6 +29,8 @@ public protocol EPUBNavigatorDelegate: VisualNavigatorDelegate, SelectableNaviga
 
     /// Implement `NavigatorDelegate.navigator(presentError:)` instead.
     func presentError(_ error: NavigatorError)
+    
+    func chapterWillBeginDragging()
 }
 
 public extension EPUBNavigatorDelegate {
@@ -39,6 +41,7 @@ public extension EPUBNavigatorDelegate {
     func didChangedDocumentPage(currentDocumentIndex: Int) {}
     func didNavigateViaInternalLinkTap(to documentIndex: Int) {}
     func presentError(_ error: NavigatorError) {}
+    
 }
 
 public typealias EPUBContentInsets = (top: CGFloat, bottom: CGFloat)
@@ -1113,6 +1116,10 @@ extension EPUBNavigatorViewController: PaginationViewDelegate {
 
     func paginationView(_ paginationView: PaginationView, positionCountAtIndex index: Int) -> Int {
         spreads[index].positionCount(in: publication)
+    }
+    
+    func paginationViewWillBeginDragging(_ paginationView: PaginationView) {
+        self.delegate?.chapterWillBeginDragging()
     }
 }
 

@@ -49,6 +49,9 @@ protocol PaginationViewDelegate: AnyObject {
 
     /// Returns the number of positions (as in `Publication.positionList`) in the page view at given index.
     func paginationView(_ paginationView: PaginationView, positionCountAtIndex index: Int) -> Int
+    
+    //MARK: ~
+    func paginationViewWillBeginDragging(_ paginationView: PaginationView)
 }
 
 final class PaginationView: UIView, Loggable {
@@ -376,5 +379,9 @@ extension PaginationView: UIScrollViewDelegate {
         let newIndex = Int(round(currentOffset / scrollView.frame.width))
 
         setCurrentIndex(newIndex)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.delegate?.paginationViewWillBeginDragging(self)
     }
 }
