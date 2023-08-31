@@ -9,6 +9,7 @@ import UIKit
 //Drag Begin
 extension PaginationView {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print("scrollViewWillBeginDragging, delegate: \(delegate)")
         self.delegate?.paginationViewWillBeginDragging(self)
     }
 }
@@ -21,6 +22,7 @@ extension PaginationViewDelegate {
 
 extension EPUBNavigatorViewController {
     func paginationViewWillBeginDragging(_ paginationView: PaginationView) {
+        print("paginationViewWillBeginDragging EPUBNavigatorViewController delegate\(delegate)")
         self.delegate?.chapterWillBeginDragging()
     }
 }
