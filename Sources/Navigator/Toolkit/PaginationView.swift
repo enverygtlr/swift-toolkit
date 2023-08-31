@@ -365,6 +365,10 @@ extension PaginationView: UIScrollViewDelegate {
             scrollView.isScrollEnabled = true
         }
     }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print("SCROLL VIEW WILL BEGIN DRAGGING!!!")
+    }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollView.isScrollEnabled = true
