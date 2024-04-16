@@ -140,7 +140,7 @@ export function isScrollModeEnabled() {
 }
 
 function getBoundingRectWithTopOffset(rect) {
-    const offset = window.innerHeight / 3;
+    const offset = window.innerHeight / 5;
     const topWithOffset = rect.top - offset;
 
     return {
