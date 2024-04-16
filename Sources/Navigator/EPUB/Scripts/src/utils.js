@@ -141,7 +141,7 @@ export function isScrollModeEnabled() {
 
 function getBoundingRectWithTopOffset(rect) {
     const offset = window.innerHeight / 3;
-    const topWithOffset = Math.max(rect.top + window.scrollY - offset, rect.top);
+    const topWithOffset = rect.top - offset;
 
     return {
         top: topWithOffset,
