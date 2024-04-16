@@ -9,13 +9,13 @@ import R2Shared
 import UIKit
 import WebKit
 
-/// A view rendering a spread of resources with a reflowable layout.
-final class EPUBReflowableSpreadView: EPUBSpreadView {
+/// A view rendering a spread of resources with a reflowable
+class EPUBReflowableSpreadView: EPUBSpreadView {
     private var topConstraint: NSLayoutConstraint!
     private var bottomConstraint: NSLayoutConstraint!
 
     private static let reflowableScript = loadScript(named: "readium-reflowable")
-
+    
     required init(
         viewModel: EPUBNavigatorViewModel,
         spread: EPUBSpread,
@@ -40,7 +40,7 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
 
     override func setupWebView() {
         super.setupWebView()
-
+    
         scrollView.bounces = false
         // Since iOS 16, the default value of alwaysBounceX seems to be true
         // for web views.
@@ -132,13 +132,10 @@ final class EPUBReflowableSpreadView: EPUBSpreadView {
                 ?? contentInset[.regular]
                 ?? contentInset[.unspecified]
                 ?? (top: 0, bottom: 0)
-
+            
             // Increases the insets by the notch area (eg. iPhone X) to make sure that the content is not overlapped by the screen notch.
-            insets.top += notchAreaInsets.top
-            insets.bottom += notchAreaInsets.bottom
-
-            topConstraint.constant = insets.top
-            bottomConstraint.constant = -insets.bottom
+            topConstraint.constant = 0
+            bottomConstraint.constant = 0
             scrollView.contentInset = .zero
         }
     }
