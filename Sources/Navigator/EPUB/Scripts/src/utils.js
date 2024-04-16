@@ -139,6 +139,20 @@ export function isScrollModeEnabled() {
   );
 }
 
+function getBoundingRectWithTopOffset(rect) {
+    const offset = window.innerHeight / 3;
+    const topWithOffset = Math.max(rect.top + window.scrollY - offset, rect.top);
+
+    return {
+        top: topWithOffset,
+        right: rect.right,
+        bottom: rect.bottom,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height
+    };
+}
+
 // Scroll to the given TagId in document and snap.
 export function scrollToId(id) {
   let element = document.getElementById(id);
@@ -146,7 +160,7 @@ export function scrollToId(id) {
     return false;
   }
 
-  scrollToRect(element.getBoundingClientRect());
+  scrollToRect(getBoundingRectWithTopOffset(element.getBoundingClientRect()));
   return true;
 }
 
