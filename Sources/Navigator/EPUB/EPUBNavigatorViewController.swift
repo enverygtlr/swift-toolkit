@@ -14,6 +14,8 @@ public protocol EPUBNavigatorDelegate: VisualNavigatorDelegate, SelectableNaviga
     // MARK: - WebView Customization
 
     func navigator(_ navigator: EPUBNavigatorViewController, setupUserScripts userContentController: WKUserContentController)
+    
+    func navigator(_ navigator: EPUBNavigatorViewController, receivedJSMessage: Any)
 
     // MARK: - Deprecated
 
@@ -27,6 +29,8 @@ public protocol EPUBNavigatorDelegate: VisualNavigatorDelegate, SelectableNaviga
 
     /// Implement `NavigatorDelegate.navigator(presentError:)` instead.
     func presentError(_ error: NavigatorError)
+    
+    func chapterWillBeginDragging()
 }
 
 public extension EPUBNavigatorDelegate {
@@ -37,6 +41,7 @@ public extension EPUBNavigatorDelegate {
     func didChangedDocumentPage(currentDocumentIndex: Int) {}
     func didNavigateViaInternalLinkTap(to documentIndex: Int) {}
     func presentError(_ error: NavigatorError) {}
+    
 }
 
 public typealias EPUBContentInsets = (top: CGFloat, bottom: CGFloat)
@@ -102,6 +107,8 @@ open class EPUBNavigatorViewController: UIViewController,
 
         /// Default user settings.
         public var userSettings: UserSettings
+        
+        public var messageNames: [String]
 
         public init(
             userSettings: UserSettings = UserSettings(),
@@ -117,7 +124,8 @@ open class EPUBNavigatorViewController: UIViewController,
             decorationTemplates: [Decoration.Style.Id: HTMLDecorationTemplate] = HTMLDecorationTemplate.defaultTemplates(),
             fontFamilyDeclarations: [AnyHTMLFontFamilyDeclaration] = [],
             readiumCSSRSProperties: CSSRSProperties = CSSRSProperties(),
-            debugState: Bool = false
+            debugState: Bool = false,
+            messageNames: [String] = []
         ) {
             self.userSettings = userSettings
             self.preferences = preferences
@@ -130,6 +138,7 @@ open class EPUBNavigatorViewController: UIViewController,
             self.fontFamilyDeclarations = fontFamilyDeclarations
             self.readiumCSSRSProperties = readiumCSSRSProperties
             self.debugState = debugState
+            self.messageNames = messageNames
         }
     }
 
@@ -1171,12 +1180,14 @@ extension EPUBNavigatorViewController: EditingActionsControllerDelegate {
 extension EPUBNavigatorViewController: PaginationViewDelegate {
     func paginationView(_ paginationView: PaginationView, pageViewAtIndex index: Int) -> (UIView & PageView)? {
         let spread = spreads[index]
-        let spreadViewType = (spread.layout == .fixed) ? EPUBFixedSpreadView.self : EPUBReflowableSpreadView.self
-        let spreadView = spreadViewType.init(
+//        let spreadViewType = (spread.layout == .fixed) ? EPUBFixedSpreadView.self : EPUBReflowableSpreadView.self
+        let spreadView = EPUBCustomReflowableSpreadView (
             viewModel: viewModel,
             spread: spread,
             scripts: [],
-            animatedLoad: false
+            animatedLoad: false,
+            messageListener: self,
+            messageNames: config.messageNames
         )
         spreadView.delegate = self
 
@@ -1199,5 +1210,15 @@ extension EPUBNavigatorViewController: PaginationViewDelegate {
 
     func paginationView(_ paginationView: PaginationView, positionCountAtIndex index: Int) -> Int {
         spreads[index].positionCount(in: readingOrder, positionsByReadingOrder: positionsByReadingOrder)
+    }
+    
+    func paginationViewWillBeginDragging(_ paginationView: PaginationView) {
+        self.delegate?.chapterWillBeginDragging()
+    }
+}
+
+extension EPUBNavigatorViewController: JSMessageListener {
+    func didReceive(message body: Any) {
+        self.delegate?.navigator(self, receivedJSMessage: body)
     }
 }
