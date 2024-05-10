@@ -37,31 +37,4 @@ final class WebView: WKWebView {
         isUserInteractionEnabled = false
         isUserInteractionEnabled = true
     }
-
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        super.canPerformAction(action, withSender: sender)
-            && editingActions.canPerformAction(action)
-    }
-
-    override func copy(_ sender: Any?) {
-        editingActions.copy()
-    }
-
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        setupDragAndDrop()
-    }
-
-    private func setupDragAndDrop() {
-        if !editingActions.canCopy {
-            guard
-                let webScrollView = subviews.first(where: { $0 is UIScrollView }),
-                let contentView = webScrollView.subviews.first(where: { $0.interactions.count > 1 }),
-                let dragInteraction = contentView.interactions.first(where: { $0 is UIDragInteraction })
-            else {
-                return
-            }
-            contentView.removeInteraction(dragInteraction)
-        }
-    }
 }
